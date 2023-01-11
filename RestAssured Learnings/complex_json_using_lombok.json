@@ -1,0 +1,36 @@
+{
+  "category" : "Super Hero Movies and Tv superGirl",
+  "acceptedFranchises" : [ "DC", "Marvel" ],
+  "genres" : [ "Action", "Adventure", "Heroic", "Dark", "Funny" ],
+  "movies" : [ {
+    "title" : "Batman: The Dark Knight",
+    "year" : 2008,
+    "cast" : [ "Christian Bale", "Heath Ledger" ]
+  }, {
+    "title" : "Justice League: Snyder cut",
+    "year" : 2021,
+    "cast" : [ "Henry Cavil", "Gal Gadot" ]
+  }, {
+    "title" : "Avengers : Age of Ultron",
+    "year" : 2015,
+    "cast" : [ "Robert Downey, Jr.", "Chris Evans" ]
+  }, {
+    "title" : "The Avengers",
+    "year" : 2012,
+    "cast" : [ "Chris Evans", "Chris Hemsworth" ]
+  } ],
+  "tvSeries" : [ {
+    "title" : "Flash",
+    "year" : 2014
+  }, {
+    "title" : "Gotham",
+    "year" : 2014
+  }, {
+    "title" : "Super Girl",
+    "year" : 2015
+  } ],
+  "otherDetails" : {
+    "country" : "Only USA. Engalukku Verngum kilaigal kedayathu",
+    "language" : "Aliena iruntalum English karanda"
+  }
+}

@@ -1,3 +1,4 @@
+
 package com.rest_assured.json_schema_validation;
 
 import java.io.File;

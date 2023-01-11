@@ -80,7 +80,7 @@ public class FilterPredicateExample {
 		List<Map<String,Object>> result2 = parse(jsonFile)
 				  						   .read("$..store.book[?].author",thirdFilter);
 		
-		//Here [?] is like a placeHolder for variable priceLessThanTen 
+		//Here [?] is like a placeHolder for variable thirdFilter 
 		//You may get confused so its just a placeholder for Filter Class variable
 							  
 		System.out.println(result2);

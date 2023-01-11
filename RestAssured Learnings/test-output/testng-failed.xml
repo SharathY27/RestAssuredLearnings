@@ -3,11 +3,11 @@
 <suite name="Failed suite [Default suite]" guice-stage="DEVELOPMENT">
   <test thread-count="5" name="Default test(failed)">
     <classes>
-      <class name="com.rest_assured.json_path_with_java.FilterPrediateExample">
+      <class name="com.rest_assured.json_path_with_java.CustomPredicateExamples">
         <methods>
-          <include name="filterPredicate"/>
+          <include name="myCustomPredicate"/>
         </methods>
-      </class> <!-- com.rest_assured.json_path_with_java.FilterPrediateExample -->
+      </class> <!-- com.rest_assured.json_path_with_java.CustomPredicateExamples -->
     </classes>
   </test> <!-- Default test(failed) -->
 </suite> <!-- Failed suite [Default suite] -->

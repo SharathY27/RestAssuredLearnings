@@ -22,7 +22,7 @@ public class NetworkNtJsonSchemaValidation {
 		ObjectMapper mapper = new ObjectMapper();
 		
 		JsonSchemaFactory factory = JsonSchemaFactory.getInstance(VersionFlag.V6);
-		//V6 is what kind of version used to convert json to json schema
+//		V6 is what kind of version used to convert json to json schema
 		//This validation using Jackson databind library and using NetworkNt method
 
 		
@@ -41,6 +41,7 @@ public class NetworkNtJsonSchemaValidation {
 		
 		Set<ValidationMessage> result = jsonSchema.validate(jsonNode);
 		if(result.isEmpty()) {
+			
 			System.out.println("No Validation Errors");
 		}
 		else {
