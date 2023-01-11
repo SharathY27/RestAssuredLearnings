@@ -31,9 +31,9 @@ public class ConfigurationsExamples {
 		//{
 		Configuration configuration = Configuration
 									  .builder()
-//									  .options(Option.DEFAULT_PATH_LEAF_TO_NULL) //using this wont throw you error if key is not present
+									  .options(Option.DEFAULT_PATH_LEAF_TO_NULL) //using this wont throw you error if key is not present
 //									  .options(Option.ALWAYS_RETURN_LIST)//this will return list even if u use definite path and must store in list else throw you ClassCastException
-									  .options(Option.SUPPRESS_EXCEPTIONS)//this will suppress the errors like same as if there is not key present it will throw null
+//								 	  .options(Option.SUPPRESS_EXCEPTIONS)//this will suppress the errors like same as if there is not key present it will throw null
 //									  .options(Option.REQUIRE_PROPERTIES)//this will check key in every data exapmle...* means in expression will check all dictionary for gender key so if gender key is not present in 2nd dictionary it will throw you error..so its like recursive operation
 									  .build();
 		//}
@@ -44,8 +44,8 @@ public class ConfigurationsExamples {
 				.parse(json)
 //				.read("$.[*].gender");    //for requireproperties
 //				.read("$.[0].gender");    //for Always return list
-//				.read("$.[1].gender");    //for default_path_leaf_to_null
-				.read("$.[1].gender");    //for suppress exception
+				.read("$.[1].gender");    //for default_path_leaf_to_null
+//				.read("$.[1].gender");    //for suppress exception
 		
 		System.out.println(gender);
 

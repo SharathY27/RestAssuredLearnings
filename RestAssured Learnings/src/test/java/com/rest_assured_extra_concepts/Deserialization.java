@@ -1,5 +1,7 @@
 package com.rest_assured_extra_concepts;
 
+import java.util.Map;
+
 import org.testng.annotations.Test;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -9,6 +11,9 @@ import com.jayway.jsonpath.Configuration;
 import com.jayway.jsonpath.JsonPath;
 import com.jayway.jsonpath.spi.mapper.JacksonMappingProvider;
 import com.rest_assured.pojo_concepts.Employee;
+
+import io.restassured.RestAssured;
+import io.restassured.common.mapper.TypeRef;
 
 
 public class Deserialization {
@@ -43,6 +48,7 @@ public class Deserialization {
 	public void deserializationUsingJsonPath() throws JsonMappingException, JsonProcessingException
 	{
 		
+		//this is using JacksonMappingProvider
 		
 		JacksonMappingProvider mappingProvider = new JacksonMappingProvider();
 		
@@ -72,6 +78,30 @@ public class Deserialization {
 		System.out.println(employee.getLastName());
 		System.out.println(employee.getEmail());
 		System.out.println(employee.getSkills());
+		
+	}
+	
+	
+	@Test
+	public void deserializationUsingAsFunction()
+	{
+		
+		//this is for storing response directly into Map
+		
+		Map<String,Object> response = RestAssured 
+		.given()
+		.baseUri("http://localhost:3000/")
+		.when()
+		.get("employees/1")
+		.then()
+		.extract()
+		.body()
+		.as(new TypeRef <Map<String,Object>>() {                             //this TypeRef() is from Rest Assured not from Jayway
+		});
+		
+		System.out.println(response);
+		System.out.println(response.get("id"));
+		
 		
 	}
 

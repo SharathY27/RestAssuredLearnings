@@ -1,0 +1,521 @@
+* JsonPath => JsonPath was first developed by Steffen Gossener in 2018, its called JsonPath
+* JayWay JsonPath => Later in 2014, Jayway came and enhanced the Gossener idea and on top of it he developed a Java JsonPath , now it named as Jayway JsonPath
+* Rest Assured JsonPath => In 2015, Rest assured developed a jsonpath based on Groovy Json Slurper and its called as Rest Assured JsonPath 
+* JayWay JsonPath is popularly used
+
+
+Error Scenario's (Very very Important) : 
+=======================================
+
+
+i) PathNotFountException = this will occur when Jsonpath is invalid
+
+ii) ClassCastException = this will occur when you try store list in string 
+	
+	For example	:  using indefinite JsonPath and storing it in String will throw this error as indefinite path will always returns list 
+
+
+IMPORTANT: Remember using proper group id is must while adding dependency
+
+
+Basic Terminologies in JsonPath:
+--------------------------------
+
+1) Notation  = Dot/Bracket notation 
+	
+	Example :
+	Dot Notation : $.firstName -> { "John" }
+	Bracket Notation : $['firstName'] -> { "John" } // Jayway jsonpath wont work it bracket notation used without single(or)double quotes and path must not end with '.' or '..'
+	
+
+2) Expression = Expression is query(Jsonpath/Xpath is a query used for fetching data from Json/html)
+
+    Example : $.firstName
+    
+3) Predicate =  It is like a boolean which we use in jsonPath  => [?()]
+4) Filter = Its like applying logical operations to get the results based on it.
+5) Dictionary = data which enclosed in curly braces is called dictionary { }
+6) List = data which enclosed in square brackets is called List [ ]
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+
+To Practice JsonPath use this link =>  https://jsonpath.com/ (or) Jayway JsonPath -> http://jsonpath.herokuapp.com/  
+
+To Practice learn basics use this link ; https://www.javainuse.com/jsonpath
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+Json used for Example below:
+---------------------------- 
+
+{
+    "firstName": "John",
+    "lastName": "doe",
+    "age": 26,
+    "address": {
+        "streetAddress": "naist street",
+        "city": "Nara",
+        "postalCode": "630-0192"
+    },
+    "phoneNumbers": [
+        {
+            "type": "iPhone",
+            "number": "0123-4567-8888"
+        },
+        {
+            "type": "home",
+            "number": "0123-4567-8910"
+        }
+    ]
+}
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+Wildcard Operation in above Json: $.* (or) *
+---------------------------------------------
+[
+  "John",
+  "doe",
+  26,
+  {
+    "streetAddress": "naist street",
+    "city": "Nara",
+    "postalCode": "630-0192"
+  },
+  [
+    {
+      "type": "iPhone",
+      "number": "0123-4567-8888"
+    },
+    {
+      "type": "home",
+      "number": "0123-4567-8910"
+    }
+  ]
+]
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+Recursive descent in above json : $..
+--------------------------------------
+
+[
+  {
+    "firstName": "John",
+    "lastName": "doe",
+    "age": 26,
+    "address": {
+      "streetAddress": "naist street",
+      "city": "Nara",
+      "postalCode": "630-0192"
+    },
+    "phoneNumbers": [
+      {
+        "type": "iPhone",
+        "number": "0123-4567-8888"
+      },
+      {
+        "type": "home",
+        "number": "0123-4567-8910"
+      }
+    ]
+  },
+  {
+    "streetAddress": "naist street",
+    "city": "Nara",
+    "postalCode": "630-0192"
+  },
+  [
+    {
+      "type": "iPhone",
+      "number": "0123-4567-8888"
+    },
+    {
+      "type": "home",
+      "number": "0123-4567-8910"
+    }
+  ],
+  {
+    "type": "iPhone",
+    "number": "0123-4567-8888"
+  },
+  {
+    "type": "home",
+    "number": "0123-4567-8910"
+  }
+]
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+Deep scan in above json: $..type
+---------------------------------
+
+[
+  "iPhone",
+  "home2"
+]
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+Deep scan with recursive operation in above json : S..*
+---------------------------------------------------------
+
+Important = It is like parent -> child -> grand child -> go on
+
+[
+  "John",
+  "doe",
+  26,
+  {
+    "streetAddress": "naist street",
+    "city": "Nara",
+    "postalCode": "630-0192"
+  },
+  [
+    {
+      "type": "iPhone",
+      "number": "0123-4567-8888"
+    },
+    {
+      "type": "home",
+      "number": "0123-4567-8910"
+    }
+  ],
+  "naist street",
+  "Nara",
+  "630-0192",
+  {
+    "type": "iPhone",
+    "number": "0123-4567-8888"
+  },
+  {
+    "type": "home",
+    "number": "0123-4567-8910"
+  },
+  "iPhone",
+  "0123-4567-8888",
+  "home",
+  "0123-4567-8910"
+]
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+ Filter in JsonPath
+ ==================
+ 
+ Array : [1,2,3,4,5,6,7,8,9,10]
+
+1) To get the third number in this array which is 3 use jsonPath = $.[2]         //here 2 is the index
+
+	Ans : 3
+
+2) To get the numbers which are greater than 4 in this array use filter in jsonPath = $.[?(@>4)]     // here ? is filer and @ is current element
+
+	Ans : [5,6,7,8,9,10]
+	
+3) To check and retrieve specific numbers present in array = $.[?(@ in [1,3,4,5,11])] 
+
+	Ans : [1,3,4,5]  //11 is not present so not retrieved
+
+4) To check and retrieve numbers except these numbers in array = $.[?(@ nin [1,3,4,5,11])]
+
+	Ans : [2,6,7,8,9,10] 
+	
+--------------------------------------------------------------------------------------------------------------------------------------------	
+
+Functions in JsonPath
+---------------------
+
+IMPORTANT : It can only be used at end of the jsonPath not in between
+
+ Array : [11,22,1,2,3,3,4,5,6,7,8,9,10,10,14]           
+ 
+1) To get minimum number in array = $.min()           				  Ans = 1
+
+2) To get maximum number in array = $.max()			  				  Ans = 14
+
+3) To get number of elements in array = $.length     				  Ans = 15
+ 
+4) To get average of number in array = $.avg()         				  Ans = 7.666666666666667	
+
+5) To get sum of all elements in array = $.sum()      				  Ans = 115
+
+6) To get standard deviation of elements in array = $.stddev()        Ans = 5.2493385826745405
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+Slicing in JsonPath
+--------------------
+
+Array : [1,2,3,4,5]
+
+Array Slicing Operations:
+
+i)    [start:end], Start index is included and end index is excluded                       
+
+		Jsonpath = [0:3]      Ans = [1,2,3]
+
+ii)   if no value is provided to start index by default 0 will be used	
+
+		Jsonpath = [:3]      Ans = [1,2,3]						 	
+
+iii)  if no value is provided to end index by default last element will be used(array length)
+
+		Jsonpath = [0:]      Ans = [1,2,3,4,5]    
+
+iv)   What if you gave negative numbers? Negative numbers iterate from the end of array
+
+		Jsonpath = [-4:-2]      Ans = [2,3]
+		Jsonpath = [:-1]        Ans = [1,2,3,4]          
+		Jsonpath = [-1]         Ans = [5]
+ 
+v)    if start and end index are same number then empty list will be returned
+
+		Jsonpath = [3:3]      Ans = []                    
+
+vi)   Always remember left to right reading
+
+		Jsonpath = [0:2]      Ans = [1,2]                                                      
+
+vii)  if start index is greater than array length empty array is returned
+
+		Jsonpath = [4:3]       Ans = [] 
+		Jsonpath = [0:-1]      Ans = []    //0 is greater than -1   IMPORTANT                   
+
+viii) if end index is greater than array length than slicing happens until the end of array.
+
+		Jsonpath = [3:8]      Ans = [4,5]     
+ 
+ --------------------------------------------------------------------------------------------------------------------------------------------
+ Regex in JsonPath:
+ ------------------
+ 
+ IMPORTANT :     ~/(STARTS WITH TEXT).*(ENDS WITH)/i
+
+ REMEMBER POINTS:
+ 
+ 1) Here ~ is used for regex operation
+ 2) i = for case insensitive match
+ 
+ Json: 
+ 
+ 
+ {
+	"id": "0001",
+	"type": "donut",
+	"name": "Cake",
+	"ppu": 0.55,
+	"batters":
+		{
+			"batter":
+				[
+					{ "id": "1001", "type": "Regular" },
+					{ "id": "1001", "type": "Chocolate" },
+					{ "id": "1003", "type": "Blueberry" },
+					{ "id": "1004", "type": "Devil's Food" }
+				]
+		},
+	"topping":
+		[
+		    
+			{ "id": "5001", "type": "None" },
+			{ "id": "5002", "type": "Glazed" },
+			{ "id": "5005", "type": "Sugar" },
+			{ "id": "5007", "type": "Powdered Sugar" },
+			{ "id": "5006", "type": "Chocolate with Sprinkles" },
+			{ "id": "5003", "type": "chocolate sugar" },
+			{ "id": "5004", "type": "Maple" }
+		    
+		]
+}
+                               
+                               
+1) To get the type ending with sugar in topping (need to use regex )
+
+	JsonPath = $.topping[?(@.type=~/.*Sugar/)]  
+
+	Ans:  [
+				{
+					"id": "5005",
+					"type": "Sugar"
+				},
+				{
+					"id": "5007",
+					"type": "Powdered Sugar"
+				},
+				
+		  ]
+		  
+2) To get the type ending with sugar in topping without case sensitive check(need to use regex )                                     
+
+	JsonPath = $.topping[?(@.type=~/.*Sugar/i)]
+
+	Ans : [
+				{
+					"id": "5005",
+					"type": "Sugar"
+				},
+				{
+					"id": "5007",
+					"type": "Powdered Sugar"
+				},
+				{
+					"id": "5003",
+					"type": "chocolate sugar"
+				}
+		  ]
+	
+3) To get the type Starts with Chocolate and ends with Sugar in overall json without case sensitive check(need to use regex )		  
+
+	JsonPath = $..[?(@.type=~/Chocolate.*Sugar/i)]
+
+	Ans : [
+				{
+					"id": "5003",
+					"type": "chocolate sugar"
+				}
+		  ]
+
+		  
+4) To get the type Starts with Chocolate in overall json without case sensitive check(need to use regex )		  
+
+	JsonPath = $..[?(@.type=~/Chocolate.*/i)]
+
+	Ans : [
+				{
+					"id": "1001",
+					"type": "Chocolate"
+				},
+				{
+					"id": "5006",
+					"type": "Chocolate with Sprinkles"
+				},
+				{
+					"id": "5003",
+					"type": "chocolate sugar"
+				}
+		  ]
+		  
+		  
+5) To get type containing "with" in all json, use contains function in jsonpath
+
+	JsonPath = $..[?(@.type contains 'with')]
+
+	Ans :  [
+				{
+					"id": "5006",
+					"type": "Chocolate with Sprinkles"
+				}
+			]
+			
+			
+6) To get all json except dicionary containing "with" in type
+
+	JsonPath  = $.*[?(!(@.type contains 'with'))]
+
+	Ans : [
+				{
+					"batter": [
+						{
+							"id": "1001",
+							"type": "Regular"
+						},
+						{
+							"id": "1001",
+							"type": "Chocolate"
+						},
+						{
+							"id": "1003",
+							"type": "Blueberry"
+						},
+						{
+							"id": "1004",
+							"type": "Devil's Food"
+						}
+					]
+				},
+				{
+					"id": "5001",
+					"type": "None"
+				},
+				{
+					"id": "5002",
+					"type": "Glazed"
+				},
+				{
+					"id": "5005",
+					"type": "Sugar"
+				},
+				{
+					"id": "5007",
+					"type": "Powdered Sugar"
+				},
+				{
+					"id": "5003",
+					"type": "chocolate sugar"
+				},
+				{
+					"id": "5004",
+					"type": "Maple"
+				}
+			]
+			
+			
+7) Performing Logical Operations like AND, OR, Not in JSONPath
+
+	AND Operation &&  :
+	-----------------
+
+	JsonPath  = $..[?(@.id contains '100'  && @.type=='Chocolate')]
+
+	Ans : [
+				{
+					"id": "1001",
+					"type": "Chocolate"
+				}
+			]
+			
+	OR Operation || :
+	----------------
+	
+	JsonPath = $..[?(@.id contains '100'  || @.type=='Chocolate')]
+	
+	Ans : [
+				{
+					"id": "1001",
+					"type": "Regular"
+				},
+				{
+					"id": "1001",
+					"type": "Chocolate"
+				},
+				{
+					"id": "1003",
+					"type": "Blueberry"
+				},
+				{
+					"id": "1004",
+					"type": "Devil's Food"
+				}
+			]
+						
+8) Logical operation with regex in JSONPath
+
+	JsonPath = $..[?(@.id contains '500'  && @.type=~/.*sugar/i)]
+
+	Ans : [
+				{
+					"id": "5005",
+					"type": "Sugar"
+				},
+				{
+					"id": "5007",
+					"type": "Powdered Sugar"
+				},
+				{
+					"id": "5003",
+					"type": "chocolate sugar"
+				}
+			]
+		  
+------------------------------------------------------------------------------------------------------------------------------------------------------------
+		  

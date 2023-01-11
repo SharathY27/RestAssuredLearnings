@@ -1,5 +1,6 @@
 package com.rest_assured.json_path_with_java;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -44,13 +45,14 @@ public class ReadingAJsonDocument {
 		//if you want to check multiple expressions so if you do it above method it is not and it will parse json every time when read method is called
 		// we need to use configuration class so that no need to parse multiple times can parse only one time and can check multiple expression
 		
-		InputStream jsonFile = new FileInputStream("src/test/resources/bookStore.json");
+		FileInputStream jsonFile = new FileInputStream("src/test/resources/bookStore.json");
 		
-		
+	
 		Object parsedJsonDocument = Configuration
-										.defaultConfiguration()
-										.jsonProvider()
-										.parse(jsonFile.readAllBytes());
+									.defaultConfiguration()
+										.jsonProvider();
+//										.parse(json);
+//										.parse(jsonFile.readAllBytes());
 		
 		List<Object> categoryList = JsonPath.read(parsedJsonDocument, "$..category");
 		
